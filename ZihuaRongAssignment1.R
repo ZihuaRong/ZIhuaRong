@@ -23,7 +23,7 @@ df.rdata <-load(url("http://github.com/EconomiCurtis/econ294_2015/raw/master/dat
 
 ##program 2
 #a
-#df.dta is 188kb, df.cvs is 139kb, df.td is 139kb and NHIS_2007_RData.RData is 45.3kb
+#df.dta is 189kb, df.cvs is 139kb, df.td is 139kb and NHIS_2007_RData.RData is 45.3kb
 
 #b
 #NHIS_2007_RData.RData is the smallest
