@@ -62,25 +62,27 @@ table(weights)
 NHIS_2007_TSV$weights<- ifelse(test = NHIS_2007_TSV$weight<996 | NHIS_2007_TSV$weight>999,
                                yes = NHIS_2007_TSV$weight,
                                no = 0)
+hist(NHIS_2007_TSV$weights)
+table(NHIS_2007_TSV$weights)
 
 #f
-ZihuaRongAssignment2$s2f <- mean(NHIS_2007_TSV[["weights"]])
-#The new mean weight is 154.5749
+ZihuaRongAssignment2$s2f <- mean(NHIS_2007_TSV$weights)
+#The new mean weight is 155
 #g
-ZihuaRongAssignment2$s2g <- median(NHIS_2007_TSV[["weights"]])
+ZihuaRongAssignment2$s2g <- median(NHIS_2007_TSV$weights)
 #The new median weight is 164
 #h
 men <- subset(NHIS_2007_TSV,(SEX==1))
 women <- subset(NHIS_2007_TSV,(SEX==2))
 ZihuaRongAssignment2$s2h <- summary(women[["weights"]])
 #The summary  of weights for women is
-#Min. 1st Qu.  Median   Mean  3rd Qu.   Max. 
-#0.0   125.0   145.0   138.3   172.0   274.0 
+# Min. 1st Qu.  Median    Mean   3rd Qu.    Max.    NA's 
+# 100.0   130.0   150.0   158.2   178.0   274.0     329 
 #i
 ZihuaRongAssignment2$s2i <- summary(men[["weights"]])
 #The summary  of weights for men is
-#Min. 1st Qu.  Median  Mean    3rd Qu.   Max. 
-#0.0   160.0   183.0   174.3   210.0    298.0 
+#  Min. 1st Qu.  Median    Mean  3rd Qu.    Max.    NA's 
+# 128.0   169.0   187.0   192.8   212.0   298.0     207 
 
 ##Question 3
 vec <- c(letters,LETTERS)
