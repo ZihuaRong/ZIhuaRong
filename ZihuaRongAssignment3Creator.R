@@ -1,4 +1,4 @@
-# n #Assignment3##
+##Assignment3##
 ##Question0
 firstName<- "Zihua"
 lastName <- "Rong"
