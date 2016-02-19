@@ -1,4 +1,4 @@
-# n #Assignment3##
+##Assignment3##
 ##Question0
 firstName<- "Zihua"
 lastName <- "Rong"
@@ -11,13 +11,13 @@ email <- "zirong@ucsc.edu"
 print(email)
 
 ##Question1
-
 #install package pdlyr
 install.packages("dplyr")
 library(dplyr)
 #install library foreign
 library(foreign)
-df.ex <- read.dta("https://github.com/EconomiCurtis/econ294_2015/raw/master/data/org_example.dta")
+
+df.ex <-read.dta("https://github.com/EconomiCurtis/econ294_2015/raw/master/data/org_example.dta")
 class(df.ex)
 
 ##Question2
@@ -27,19 +27,21 @@ df.ex.2b <- dplyr::filter(df.ex,year == 2013 & (month == 7 | month == 8 | month 
 print(nrow(df.ex.2b))
 
 ##Question3 
-df.ex.3a <- dplyr::arrange(df.ex,year,month)
+df.ex.3a<-df.ex %>% dplyr::arrange(year,month)
 
 ##Question4
-df.ex.4a <- dplyr::select(df.ex,year,age)
-df.ex.4b <- dplyr::select(df.ex,year,month,starts_with("i"))
-print(unique(df.ex$state))
+df.ex.4a<-df.ex %>% dplyr::select(year:age)
+df.ex.4b<-df.ex %>% dplyr::select(year,month,starts_with("i"))
+unique(select(df.ex,state))
+
+
 
 ##Question5
 stndz <- function(x){(x - mean(x, na.rm = T))  /  sd(x, na.rm = T)}
 nrmlz <- function(x){(x-min(x, na.rm = T))/(max(x, na.rm = T)-min(x, na.rm = T))}
 
 df.ex.5a<- df.ex %>% 
-mutate(rw.stndz= stndz(rw),rw.nrmlz=nrmlz(rw))
+  mutate(rw.stndz= stndz(rw),rw.nrmlz=nrmlz(rw))
 
 df.ex.5b <- df.ex %>% group_by(year, month) %>%
   mutate(rw_stndz=stndz(rw), rw_nrmlz=nrmlz(rw), count=n())
@@ -50,11 +52,11 @@ df.ex.6<-
   group_by(year,month,state)%>%
   summarise(
     rw_min=min(rw,na.rm = T),
-    rw_1stQnt=quantile(rw,na.rm = T,0.25),
+    rw_1st=quantile(rw,na.rm = T,0.25),
     rw_mean.art =mean(rw,na.rm = T),
-    rw_3rdQnt=quantile(rw,na.rm = T,0.75),
+    rw_3rd=quantile(rw,na.rm = T,0.75),
     rw_max=max(rw,na.rm = T),
-    rw_median=median(rw,na.rm=T),
+    rw_med=median(rw,na.rm=T),
     count=n()
   )%>%
   select(state,starts_with("rw_"),count)
