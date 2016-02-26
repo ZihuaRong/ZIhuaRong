@@ -50,5 +50,5 @@ group_d2 <- d %>% dplyr::group_by(year,month,educ)%>%
 group_d2<-group_d2 %>% mutate(date=paste(year,month,"01", sep="-"),
                               date=as.Date(date,format="%Y-%m-%d"))
 
-q2pb <- ggplot(group_d2, aes(x=date, y=Median.RW,group=educ))
-q2pb + geom_line(aes(color=educ))
+q3pb <- ggplot(group_d2, aes(x=date, y=Median.RW,group=educ))
+q3pb + geom_line(aes(color=educ))
