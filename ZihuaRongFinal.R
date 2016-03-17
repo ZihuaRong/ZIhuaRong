@@ -2,6 +2,7 @@
 ##Name:Zihua Rong
 ##ID:1505002
 ##Email:zirong@ucsc.edu
+
 install.packages("nycflights13")
 library(nycflights13)
 library(dplyr)
@@ -9,32 +10,17 @@ install.packages("RSQLite")
 library(RSQLite)
 library(ggplot2)
 
-
 db <- src_sqlite("db.sqlite3", create = T)
-flights_sqlite <- copy_to(db, flights, temporary = FALSE, indexes = list(c("year", "month", "day"), 
-    "carrier",  "tailnum"))
-
-airlines_sqlite <- copy_to(db, airlines, temporary = FALSE, indexes = list("carrier"))
-airports_sqlite <- copy_to(db, airports, temporary = FALSE, indexes = list("faa"))
-planes_sqlite <- copy_to( db, planes, temporary = FALSE, indexes = list("tailnum"))
-weather_sqlite <- copy_to(db, weather, temporary = FALSE, indexes = list(c("year", "month","day","hour"),
-     "origin"))
-
-
 df.flight<-tbl(db, sql("SELECT * FROM flights")) %>%  collect() %>% mutate(canceled=is.na(arr_time))
 df.plane<-tbl(db, sql("SELECT * FROM planes")) %>%  collect()
 df.airport<-tbl(db,sql("SELECT * FROM airports"))%>%  collect() %>% mutate(dest = faa)
 df.weather<-tbl(db,sql("SELECT * FROM weather")) %>%   collect()
 
 df.FP<- tbl(db, sql("SELECT * FROM flights join planes ON flights.tailnum = planes.tailnum")) %>% collect()
-
-# panel data flights and airport
 df.FA<-inner_join(df.flight, df.airport,by="dest")
-# panel data flights and plane
 df.FP<-inner_join(df.flight,df.plane,by="tailnum")
-# panel data flights and weather
 df.FW<-inner_join(df.flight,df.weather)
-# panel data flights and departure time
+
 df.FT<-df.flight
 df.FT$time_of_day<-NA
 df.FT$time_of_day<-df.FT$hour+(df.FT$minute/60)
@@ -64,6 +50,13 @@ summary(lm_a)
 
 glm_a<-glm(canceled~humid+temp+wind_speed+pressure,family = binomial(link = probit), data = df.FW)
 summary(glm_a)
+#Coefficients:
+#             Estimate Std. Error z value Pr(>|z|)    
+#(Intercept)  7.2611845  4.1039806   1.769  0.07684 .  
+#humid        0.0004785  0.0014436   0.331  0.74029    
+#temp         0.0073330  0.0015465   4.742 2.12e-06 ***
+#wind_speed  -0.0000678  0.0017014  -0.040  0.96821    
+#pressure    -0.0105735  0.0040014  -2.642  0.00823 ** 
 
 plota1 <- ggplot(df.FW, aes(x= temp,y=dep_delay)) + geom_point()
 plota1 
