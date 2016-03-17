@@ -1,4 +1,7 @@
-
+##Final Exam
+##Name:Zihua Rong
+##ID:1505002
+##Email:zirong@ucsc.edu
 install.packages("nycflights13")
 library(nycflights13)
 library(dplyr)
